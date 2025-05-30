@@ -1,86 +1,112 @@
-
-// Se guardan en variables los elementos DOM que se va a usar 
-const searchInput = document.getElementById('searchInput'); // acá el usuario escribe el input 
-const searchBtn = document.getElementById('searchBtn'); //iniciar busqueda 
-const messageContainer = document.getElementById('message'); // mensajes para el usuario 
-const resultsContainer = document.getElementById('results'); // contenedor de los personajes 
-
+const buscarInput = document.querySelector('input[placeholder="Buscar personajes"]'); // input de búsqueda
+const btnBuscar = document.querySelector(".btn.btn-warning");
+const btnLimpiar = document.querySelector(".btn.btn-success");
+const contenedorMensajes = document.getElementById("message");
+const contenedorDePersonajes = document.getElementById("Personaje"); 
 
 // Arreglo para guardar personajes encontrados
-let charactersArray = [];
+let PersonajesArray = [];
 
-// Función para limpiar los resultados anteriores y los mensajes
-function clearResults() {
-  resultsContainer.innerHTML = ''; // limpio los personajes 
-  messageContainer.textContent = ''; // limpio los mensajes 
-   charactersArray = [];
+// Limpiar resultados y mensajes
+function LimpiarPersonaje() {
+  contenedorDePersonajes.innerHTML = '';
+  contenedorMensajes.textContent = '';
 }
 
+// Mostrar mensaje
 function showMessage(text) {
-  messageContainer.textContent = text;
+  contenedorMensajes.textContent = text;
 }
 
-// Función para renderizar tarjetas de personajes
-function renderCharacters(characters) {
-  characters.forEach(character => {
-    const card = document.createElement('div');
-    card.classList.add('character-card'); 
-
-    card.innerHTML = `
-      <img src="${character.image}" alt="${character.name}" class="character-img"/>
-      <h3>${character.name}</h3>
-      <p><strong>Raza:</strong> ${character.race}</p>
-      <p><strong>Género:</strong> ${character.gender}</p>
+//Renderizar Tarjetas De Personajes
+function renderTarjetas(personajes) {
+  personajes.forEach(personaje => {
+    const Tarjeta = document.createElement('div');
+   Tarjeta.classList.add('Tarjeta-Personaje', 'col-12', 'col-md-4', 'd-flex', 'align-items-stretch', 'justify-content-center');
+    Tarjeta.innerHTML = `
+      <div class="card h-100 shadow-lg border-warning border-2">
+        <img src="${personaje.image}" alt="${personaje.name}" class="card-img-top"/>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h3 class="card-title text-center mb-2" style="font-family: 'Luckiest Guy', cursive; color: #ff9800;">${personaje.name}</h3>
+            <p class="card-text mb-1"><strong>Raza:</strong> ${personaje.race}</p>
+            <p class="card-text mb-3"><strong>Género:</strong> ${personaje.gender}</p>
+          </div>
+          <button class="btn btn-warning mt-auto w-100 ver-detalles-btn" data-id="${personaje.id}">Ver detalles</button>
+        </div>
+      </div>
     `;
+    contenedorDePersonajes.appendChild(Tarjeta);
+  });
 
-    resultsContainer.appendChild(card);
+  // Evento para los botones "Ver detalles"
+  document.querySelectorAll('.ver-detalles-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.getAttribute('data-id');
+      // Aquí puedes abrir un modal o mostrar detalles usando el id
+      alert('Aquí puedes mostrar detalles del personaje con id: ' + id);
+    });
   });
 }
 
-// Función asincrónica para buscar personajes por nombre usando la API de Dragon Ball
-async function searchCharactersByName(name) {
+// Buscar personajes por nombre
+async function buscarPersonajesByName(name) {
   try {
-    const response = await fetch(`https://dragonball-api.com/api/characters?name=${encodeURIComponent(name)}`);
-
-    if (!response.ok) {
-      throw new Error(`Error al consultar la API. Código: ${response.status}`);
+    showMessage(''); // Limpia mensajes anteriores
+    contenedorDePersonajes.innerHTML = ''; // Limpia resultados anteriores
+    // Usa encodeURIComponent para evitar errores con espacios o caracteres especiales
+     const respuesta = await fetch(`https://dragonball-api.com/api/characters?name=${encodeURIComponent(name)}`);
+    if (!respuesta.ok) {
+      throw new Error(`Error al consultar la API. Código: ${respuesta.status}`);
     }
-
-    const data = await response.json();
-
+    const data = await respuesta.json();
     if (!data.items || data.items.length === 0) {
       showMessage('No se encontraron personajes con ese nombre.');
       return;
     }
-
-    // Guardar los personajes encontrados en el array global
-    charactersArray = data.items;
-
-    // Renderizar en pantalla
-    renderCharacters(charactersArray);
-
+    PersonajesArray = data.items;
+    renderTarjetas(PersonajesArray);
   } catch (error) {
     console.error('Error de red o fetch:', error);
     showMessage('Ocurrió un error al consultar la API. Por favor, intentá de nuevo más tarde.');
   }
 }
 
-
-// Evento cuando el usuario hace click 
-searchBtn.addEventListener('click', () => {
-  clearResults(); // limpio la pantalla antes de mostrar nuevos resultados
-
-  const query = searchInput.value.trim(); // agarro el valor del input, sin espacios al principio ni al final
-
-  // Valido que el input no esté vacío
-  if (!query) {
-    messageContainer.textContent = 'Por favor, ingrese un nombre para buscar.'; // mensjae por si no se escribió nada 
-    return; //se corta la función
+// Cargar personajes al inicio (primeros 12)
+async function cargarPersonajesInicio() {
+  LimpiarPersonaje();
+  try {
+    const respuesta = await fetch('https://dragonball-api.com/api/characters?page=1');
+    if (!respuesta.ok) throw new Error();
+    const data = await respuesta.json();
+    if (!data.items || data.items.length === 0) {
+      showMessage('No se encontraron personajes.');
+      return;
+    }
+    renderTarjetas(data.items.slice(0, 12)); // Solo los primeros 12
+  } catch {
+    showMessage('Error al cargar personajes.');
   }
+}
 
-
- // Si se valida, se buscala API 
-  searchCharactersByName(query);
-
-
+// Evento buscar
+btnBuscar.addEventListener('click', (e) => {
+  e.preventDefault();
+  LimpiarPersonaje();
+  const query = buscarInput.value.trim();
+  if (!query) {
+    showMessage('Por favor, ingrese un nombre para buscar.');
+    return;
+  }
+  buscarPersonajesByName(query);
 });
+
+// Evento limpiar
+btnLimpiar.addEventListener('click', () => {
+  buscarInput.value = '';
+  LimpiarPersonaje();
+  cargarPersonajesInicio();
+});
+
+// Cargar personajes al abrir la página
+window.addEventListener('DOMContentLoaded', cargarPersonajesInicio);

@@ -1,98 +1,44 @@
-
 body {
-  background-color: #ffe6f0; 
-  color: #6b2d5c; 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image : url(../../../image/dragonBall.jpg);
+    background-repeat: no-repeat;
+   background-position: center;
+    background-size: cover;
+     background-attachment: fixed;
+    height: 100vh;
+    margin: 0;  
+
 }
 
-/* Título principal */
-.main-title {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #9c317a; 
-  margin-bottom: 2rem;
-  text-shadow: 1px 1px 3px #d897bf;
-}
-
-/* Formulario de búsqueda */
-.input-search {
-  width: 300px;
-  padding: 0.5rem 1rem;
-  font-size: 1.1rem;
-  border: 2px solid #d47cae;
-  border-radius: 25px;
-  transition: border-color 0.3s ease;
-}
-
-.input-search:focus {
-  outline: none;
-  border-color: #a43d6e;
-  box-shadow: 0 0 8px #a43d6e;
-}
-
-/* Botón de búsqueda */
-.btn-search {
-  background-color: #d47cae;
-  border: none;
-  color: white;
-  padding: 0.5rem 1.5rem;
-  font-weight: 600;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-search:hover {
-  background-color: #a43d6e;
-}
-
-/* Mensajes de error o info */
-.message-text {
-  margin-top: 1rem;
-  color: #a43d6e;
-  font-weight: 600;
-  min-height: 1.5em;
-}
-
-/* Contenedor de resultados */
-#results {
-  margin-top: 2rem;
-}
-
-/* Tarjetas de personajes */
-.card-character {
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(156, 49, 122, 0.2);
-  padding: 1rem;
-  text-align: center;
-  color: #6b2d5c;
-  transition: transform 0.2s ease;
-}
-
-.card-character:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(156, 49, 122, 0.4);
-}
-
-.card-character img {
+.card {
+  min-height: 540px;
+  max-width: 95%;
   width: 100%;
-  max-width: 180px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 3px solid #d47cae;
+  margin: 16px auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  background: #fff;
+  border: 2px solid #ff9800;
+  transition: transform 0.18s, box-shadow 0.18s;
 }
 
-/* Datos de personaje */
-.character-name {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.card-img-top {
+  width: 100%;
+  height: 340px;           
+  object-fit: contain;    
+  background: #fff;       
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  display: block;
+  padding: 0;
 }
 
-.character-info {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: #a43d6e;
+.card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem;
 }
