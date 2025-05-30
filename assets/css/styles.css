@@ -1,0 +1,98 @@
+
+body {
+  background-color: #ffe6f0; 
+  color: #6b2d5c; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título principal */
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #9c317a; 
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 3px #d897bf;
+}
+
+/* Formulario de búsqueda */
+.input-search {
+  width: 300px;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  border: 2px solid #d47cae;
+  border-radius: 25px;
+  transition: border-color 0.3s ease;
+}
+
+.input-search:focus {
+  outline: none;
+  border-color: #a43d6e;
+  box-shadow: 0 0 8px #a43d6e;
+}
+
+/* Botón de búsqueda */
+.btn-search {
+  background-color: #d47cae;
+  border: none;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+  background-color: #a43d6e;
+}
+
+/* Mensajes de error o info */
+.message-text {
+  margin-top: 1rem;
+  color: #a43d6e;
+  font-weight: 600;
+  min-height: 1.5em;
+}
+
+/* Contenedor de resultados */
+#results {
+  margin-top: 2rem;
+}
+
+/* Tarjetas de personajes */
+.card-character {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(156, 49, 122, 0.2);
+  padding: 1rem;
+  text-align: center;
+  color: #6b2d5c;
+  transition: transform 0.2s ease;
+}
+
+.card-character:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(156, 49, 122, 0.4);
+}
+
+.card-character img {
+  width: 100%;
+  max-width: 180px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #d47cae;
+}
+
+/* Datos de personaje */
+.character-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.character-info {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #a43d6e;
+}

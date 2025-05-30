@@ -1,4 +1,3 @@
-// script.js - código parcial para validación y evento click básico
 
 // Se guardan en variables los elementos DOM que se va a usar 
 const searchInput = document.getElementById('searchInput'); // acá el usuario escribe el input 
@@ -6,33 +5,63 @@ const searchBtn = document.getElementById('searchBtn'); //iniciar busqueda
 const messageContainer = document.getElementById('message'); // mensajes para el usuario 
 const resultsContainer = document.getElementById('results'); // contenedor de los personajes 
 
+
+// Arreglo para guardar personajes encontrados
+let charactersArray = [];
+
 // Función para limpiar los resultados anteriores y los mensajes
 function clearResults() {
   resultsContainer.innerHTML = ''; // limpio los personajes 
   messageContainer.textContent = ''; // limpio los mensajes 
+   charactersArray = [];
+}
+
+function showMessage(text) {
+  messageContainer.textContent = text;
+}
+
+// Función para renderizar tarjetas de personajes
+function renderCharacters(characters) {
+  characters.forEach(character => {
+    const card = document.createElement('div');
+    card.classList.add('character-card'); 
+
+    card.innerHTML = `
+      <img src="${character.image}" alt="${character.name}" class="character-img"/>
+      <h3>${character.name}</h3>
+      <p><strong>Raza:</strong> ${character.race}</p>
+      <p><strong>Género:</strong> ${character.gender}</p>
+    `;
+
+    resultsContainer.appendChild(card);
+  });
 }
 
 // Función asincrónica para buscar personajes por nombre usando la API de Dragon Ball
 async function searchCharactersByName(name) {
   try {
-    const response = await fetch(`https://dragonball-api.com/api/characters?name=${name}`);
-    
+    const response = await fetch(`https://dragonball-api.com/api/characters?name=${encodeURIComponent(name)}`);
+
     if (!response.ok) {
-      throw new Error('Error al consultar la API'); // si la API devuelve error, lanza excepción
+      throw new Error(`Error al consultar la API. Código: ${response.status}`);
     }
 
-    const data = await response.json(); // convierte la respuesta en JSON
+    const data = await response.json();
 
-    if (data.items.length === 0) {
-      messageContainer.textContent = 'No se encontraron personajes con ese nombre 😕';
+    if (!data.items || data.items.length === 0) {
+      showMessage('No se encontraron personajes con ese nombre.');
       return;
     }
 
-    // Si hay resultados, los mostramos en consola por ahora (se renderizan en el próximo paso)
-    console.log(data.items); // ← esto se reemplazará por renderizado dinámico luego
+    // Guardar los personajes encontrados en el array global
+    charactersArray = data.items;
+
+    // Renderizar en pantalla
+    renderCharacters(charactersArray);
+
   } catch (error) {
-    console.error(error);
-    messageContainer.textContent = 'Ocurrió un error al consultar la API 😵';
+    console.error('Error de red o fetch:', error);
+    showMessage('Ocurrió un error al consultar la API. Por favor, intentá de nuevo más tarde.');
   }
 }
 
