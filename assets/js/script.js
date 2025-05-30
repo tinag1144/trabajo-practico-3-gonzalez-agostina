@@ -12,6 +12,31 @@ function clearResults() {
   messageContainer.textContent = ''; // limpio los mensajes 
 }
 
+// Función asincrónica para buscar personajes por nombre usando la API de Dragon Ball
+async function searchCharactersByName(name) {
+  try {
+    const response = await fetch(`https://dragonball-api.com/api/characters?name=${name}`);
+    
+    if (!response.ok) {
+      throw new Error('Error al consultar la API'); // si la API devuelve error, lanza excepción
+    }
+
+    const data = await response.json(); // convierte la respuesta en JSON
+
+    if (data.items.length === 0) {
+      messageContainer.textContent = 'No se encontraron personajes con ese nombre 😕';
+      return;
+    }
+
+    // Si hay resultados, los mostramos en consola por ahora (se renderizan en el próximo paso)
+    console.log(data.items); // ← esto se reemplazará por renderizado dinámico luego
+  } catch (error) {
+    console.error(error);
+    messageContainer.textContent = 'Ocurrió un error al consultar la API 😵';
+  }
+}
+
+
 // Evento cuando el usuario hace click 
 searchBtn.addEventListener('click', () => {
   clearResults(); // limpio la pantalla antes de mostrar nuevos resultados
@@ -21,6 +46,12 @@ searchBtn.addEventListener('click', () => {
   // Valido que el input no esté vacío
   if (!query) {
     messageContainer.textContent = 'Por favor, ingrese un nombre para buscar.'; // mensjae por si no se escribió nada 
-    return; 
+    return; //se corta la función
   }
+
+
+ // Si se valida, se buscala API 
+  searchCharactersByName(query);
+
+
 });
