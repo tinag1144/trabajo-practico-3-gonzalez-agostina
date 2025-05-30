@@ -43,34 +43,44 @@ body {
   font-family: 'Luckiest Guy', cursive;
 }
 
+/* Sobrescribimos btn-warning de Bootstrap */
 .btn-warning {
-  background-color: #ffb6c1;
-  border: none;
-  color: #8b008b;
+  background: linear-gradient(to right, #ffb6c1, #ff69b4) !important;
+  border: none !important;
+  color: white !important;
   font-weight: bold;
-  border-radius: 20px;
-  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Luckiest Guy', cursive;
+  border-radius: 50px !important;
+  padding: 0.6rem 1.5rem !important;
+  box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
   transition: all 0.3s ease;
 }
 
 .btn-warning:hover {
-  background-color: #ff69b4;
-  color: white;
+  background: linear-gradient(to right, #ff69b4, #ff1493) !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 105, 180, 0.6);
 }
 
+/* Sobrescribimos btn-success de Bootstrap */
 .btn-success {
-  background-color: #e0b0ff;
-  border: none;
-  color: #4b0082;
+  background: linear-gradient(to right, #d8b6ff, #c48bff) !important;
+  border: none !important;
+  color: white !important;
   font-weight: bold;
-  border-radius: 20px;
-  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Luckiest Guy', cursive;
+  border-radius: 50px !important;
+  padding: 0.6rem 1.5rem !important;
+  box-shadow: 0 4px 10px rgba(180, 105, 255, 0.4);
   transition: all 0.3s ease;
 }
 
 .btn-success:hover {
-  background-color: #d18bff;
-  color: white;
+  background: linear-gradient(to right, #c48bff, #a64bff) !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(180, 105, 255, 0.6);
 }
 
 /* Mensaje de error/info */
